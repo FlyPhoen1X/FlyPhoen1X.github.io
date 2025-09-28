@@ -1,0 +1,119 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    <script>
+        let result = sum(2, 4)
+        function sum(a1, f2)
+        {
+            a1 += f2
+            return a1
+
+        }
+        document.write(sum(6,2))
+        
+        alert(result)
+        
+    </script>
+    
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай число</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #message {
+            margin: 20px 0;
+            font-weight: bold;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Угадай число от 1 до 100!</h1>
+    <div id="message">Введите число и нажмите "Проверить"</div>
+    
+    <input type="number" id="guessInput" min="1" max="100" placeholder="Ваше число">
+    <button onclick="checkGuess()">Проверить</button>
+    <button onclick="newGame()">Новая игра</button>
+    
+    <div>Попытки: <span id="attempts">0</span></div>
+
+    <script>
+        let secretNumber;
+        let attempts;
+        
+        // Начало новой игры
+        function newGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('attempts').textContent = attempts;
+            document.getElementById('message').textContent = 'Введите число от 1 до 100';
+            document.getElementById('guessInput').value = '';
+            document.getElementById('guessInput').focus();
+        }
+        
+        // Проверка предположения
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const message = document.getElementById('message');
+            const attemptsDisplay = document.getElementById('attempts');
+            
+            const userGuess = parseInt(guessInput.value);
+            
+            if (isNaN(userGuess) || userGuess < 1  || userGuess > 100) {
+                message.textContent = 'Пожалуйста, введите число от 1 до 100!';
+                return;
+            }
+            
+            attempts++;
+            attemptsDisplay.textContent = attempts;
+            
+            if (userGuess === secretNumber) {
+                message.innerHTML = `"🎉 Поздравляем! Вы угадали число ${secretNumber} за ${attempts} попыток!"`;
+                message.style.color = 'green';
+            } else if (userGuess < secretNumber) {
+                message.textContent = 'Слишком маленькое число! Попробуйте больше.';
+                message.style.color = 'blue';
+            } else {
+                message.textContent = 'Слишком большое число! Попробуйте меньше.';
+                message.style.color = 'red';
+            }
+            
+            guessInput.value = '';
+            guessInput.focus();
+        }
+        
+        // Обработка нажатия Enter
+        document.getElementById('guessInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+        
+        // Начинаем игру при загрузке страницы
+        newGame();
+    </script>
+</body>
+</html>
