@@ -112,6 +112,12 @@ const QUESTIONS = [
   }
 ];
 
+/* 🔹 Автоматически формируем массив правильных ответов */
+const CORRECT_ANSWERS = QUESTIONS.map(item => ({
+  ru: item.ru.a[item.ru.correct],
+  en: item.en.a[item.en.correct]
+}));
+
 /* Состояние */
 let lang = 'ru';
 let shuffled = [];
@@ -129,11 +135,11 @@ function shuffleArray(arr) {
 function setLanguage(l) {
   lang = l === 'en' ? 'en' : 'ru';
   document.getElementById('title').textContent = (lang === 'ru' ? 'IT Тест' : 'IT Quiz');
-  renderQuiz(); // при смене языка перерисовать (и перемешать)
+  renderQuiz();
 }
 
 function renderQuiz() {
-  shuffled = shuffleArray(QUESTIONS); // перемешиваем при рендере (требование)
+  shuffled = shuffleArray(QUESTIONS);
   const form = document.getElementById('quizForm');
   form.innerHTML = '';
 
@@ -162,7 +168,6 @@ function renderQuiz() {
     form.appendChild(wrapper);
   });
 
-  // очистка результата и прогресс-бара
   document.getElementById('result').textContent = '';
   const bar = document.getElementById('progressBar');
   bar.style.width = '0%'; bar.textContent = '';
@@ -203,7 +208,6 @@ function checkAnswers() {
   else if (percent >= 50) bar.style.background = '#f39c12';
   else bar.style.background = '#e74c3c';
 
-  // блокируем возможность менять ответы после проверки
   document.querySelectorAll('#quizForm input').forEach(i => i.disabled = true);
   document.getElementById('checkBtn').disabled = true;
 }
@@ -216,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setLanguage('ru');
 });
 
-// на всякий случай экспортируем в глобальный объект (если где-то ожидают)
 window.setLanguage = setLanguage;
 </script>
 </body>
